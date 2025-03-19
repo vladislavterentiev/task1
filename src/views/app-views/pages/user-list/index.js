@@ -23,7 +23,6 @@ export class UserList extends Component {
     }
   }
 
-  // Callback для удаления пользователя
   handleDeleteUser = (userId) => {
     return () => {
       this.setState((prevState) => ({
@@ -33,7 +32,6 @@ export class UserList extends Component {
     };
   };
 
-  // Callback для начала редактирования пользователя
   handleStartEditing = (userInfo) => {
     return () => {
       this.setState({
@@ -43,7 +41,6 @@ export class UserList extends Component {
     };
   };
 
-  // Callback для завершения редактирования
   handleStopEditing = () => {
     this.setState({
       isEditing: false,
@@ -107,7 +104,7 @@ export class UserList extends Component {
                 type="primary"
                 className="mr-2"
                 icon={<EyeOutlined />}
-                onClick={this.handleStartEditing(record)} // Передаем callback
+                onClick={this.handleStartEditing(record)} 
                 size="small"
               />
             </Tooltip>
@@ -115,7 +112,7 @@ export class UserList extends Component {
               <Button
                 danger
                 icon={<DeleteOutlined />}
-                onClick={this.handleDeleteUser(record.id)} // Передаем callback
+                onClick={this.handleDeleteUser(record.id)}
                 size="small"
               />
             </Tooltip>
@@ -129,7 +126,7 @@ export class UserList extends Component {
         {isEditing ? (
           <EditProfile
             data={selectedUser}
-            onClose={this.handleStopEditing} // Передаем callback
+            onClose={this.handleStopEditing} 
           />
         ) : (
           <Table columns={tableColumns} dataSource={users} rowKey="id" />

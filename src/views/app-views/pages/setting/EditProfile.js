@@ -18,17 +18,16 @@ export class EditProfile extends Component {
 
   render() {
     const onFinish = values => {
-      this.setState({ isSaving: true }); // вкл лоадер
+      this.setState({ isSaving: true });
 
       const key = 'updatable';
       message.loading({ content: 'Updating...', key });
 
       setTimeout(() => {
-        // имитация отправки данных на сервер
-        console.log('Updated values:', values); // лог новых значений
+        console.log('Updated values:', values);
         message.success({ content: 'Done!', key, duration: 2 });
 
-        this.setState({ isSaving: false }); // выкл лоадер
+        this.setState({ isSaving: false }); 
         this.props.onClose(); 
       }, 1000);
     };
