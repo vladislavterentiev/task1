@@ -7,8 +7,8 @@ export class UserList extends Component {
   state = {
     users: [],
     loading: true,
-    isEditing: false, // состояние для управления видимостью EditProfile
-    selectedUser: null, // выбранный пользователь
+    isEditing: false,
+    selectedUser: null,
   };
 
   async componentDidMount() {
@@ -23,21 +23,28 @@ export class UserList extends Component {
     }
   }
 
-  deleteUser = userId => {
-    this.setState({
-      users: this.state.users.filter(user => user.id !== userId),
-    });
-    message.success(`Deleted user with ID ${userId}`);
+  // Callback для удаления пользователя
+  handleDeleteUser = (userId) => {
+    return () => {
+      this.setState((prevState) => ({
+        users: prevState.users.filter((user) => user.id !== userId),
+      }));
+      message.success(`Deleted user with ID ${userId}`);
+    };
   };
 
-  startEditing = userInfo => {
-    this.setState({
-      isEditing: true,
-      selectedUser: userInfo,
-    });
+  // Callback для начала редактирования пользователя
+  handleStartEditing = (userInfo) => {
+    return () => {
+      this.setState({
+        isEditing: true,
+        selectedUser: userInfo,
+      });
+    };
   };
 
-  stopEditing = () => {
+  // Callback для завершения редактирования
+  handleStopEditing = () => {
     this.setState({
       isEditing: false,
       selectedUser: null,
@@ -100,7 +107,7 @@ export class UserList extends Component {
                 type="primary"
                 className="mr-2"
                 icon={<EyeOutlined />}
-                onClick={() => this.startEditing(record)} // открываю форму редактирования
+                onClick={this.handleStartEditing(record)} // Передаем callback
                 size="small"
               />
             </Tooltip>
@@ -108,7 +115,7 @@ export class UserList extends Component {
               <Button
                 danger
                 icon={<DeleteOutlined />}
-                onClick={() => this.deleteUser(record.id)}
+                onClick={this.handleDeleteUser(record.id)} // Передаем callback
                 size="small"
               />
             </Tooltip>
@@ -119,11 +126,10 @@ export class UserList extends Component {
 
     return (
       <Card bodyStyle={{ padding: '0px' }}>
-        {/* отображаю либо список пользователей, либо форму редактирования */}
         {isEditing ? (
           <EditProfile
-            data={selectedUser} // передаю данные пользователя
-            onClose={this.stopEditing} 
+            data={selectedUser}
+            onClose={this.handleStopEditing} // Передаем callback
           />
         ) : (
           <Table columns={tableColumns} dataSource={users} rowKey="id" />
