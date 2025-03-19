@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:16-alpine
 
 WORKDIR /app
 
@@ -8,11 +8,10 @@ RUN npm install --production --legacy-peer-deps
 
 COPY . .
 
-ENV NODE_OPTIONS=--openssl-legacy-provider
 RUN npm run build
 
-ENV PORT 1716
-ENV NODE_ENV production
+ENV PORT=1716
+ENV NODE_ENV=production
 EXPOSE 1716
 
 CMD ["npm", "start"]
