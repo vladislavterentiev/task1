@@ -4,10 +4,11 @@ WORKDIR /app
 
 COPY package*.json ./
 RUN npm cache clean --force
-RUN npm install --production
+RUN npm install --production --legacy-peer-deps
 
 COPY . .
 
+ENV NODE_OPTIONS=--openssl-legacy-provider
 RUN npm run build
 
 ENV PORT 1716
